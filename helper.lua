@@ -156,6 +156,14 @@ function BCS:GetHitRating(hitOnly)
 					hit = hit + tonumber(value)
 					line = MAX_LINES
 				end
+				
+				-- paladins
+				_,_, value = strfind(left:GetText(), L["Increases your chance to hit with melee attacks and spells by (%d)%%."])
+				name, iconTexture, tier, column, rank, maxRank, isExceptional, meetsPrereq = GetTalentInfo(Cache_GetHitRating_Tab, Cache_GetHitRating_Talent)
+				if value and rank > 0 then
+					hit = hit + tonumber(value)
+					line = MAX_LINES
+				end
 			end
 		end
 		
@@ -194,6 +202,20 @@ function BCS:GetHitRating(hitOnly)
 					
 					-- hunters
 					_,_, value = strfind(left:GetText(), L["Increases hit chance by (%d)%% and increases the chance movement impairing effects will be resisted by an additional %d+%%."])
+					name, iconTexture, tier, column, rank, maxRank, isExceptional, meetsPrereq = GetTalentInfo(tab, talent)
+					if value and rank > 0 then
+						hit = hit + tonumber(value)
+						
+						Cache_GetHitRating_Tab = tab
+						Cache_GetHitRating_Talent = talent
+						
+						line = MAX_LINES
+						talent = MAX_TALENTS
+						tab = MAX_TABS
+					end
+					
+					-- paladins
+					_,_, value = strfind(left:GetText(), L["Increases your chance to hit with melee attacks and spells by (%d)%%."])
 					name, iconTexture, tier, column, rank, maxRank, isExceptional, meetsPrereq = GetTalentInfo(tab, talent)
 					if value and rank > 0 then
 						hit = hit + tonumber(value)
@@ -327,6 +349,15 @@ function BCS:GetSpellHitRating()
 					local name, iconTexture, tier, column, rank, maxRank, isExceptional, meetsPrereq = GetTalentInfo(tab, talent)
 					if value and rank > 0 then
 						hit_shadow = hit_shadow + tonumber(value)
+						line = MAX_LINES
+					end
+					
+					-- Paladin
+					-- Precision
+					_,_, value = strfind(left:GetText(), L["Increases your chance to hit with melee attacks and spells by (%d)%%."])
+					local name, iconTexture, tier, column, rank, maxRank, isExceptional, meetsPrereq = GetTalentInfo(tab, talent)
+					if value and rank > 0 then
+						hit = hit + tonumber(value)
 						line = MAX_LINES
 					end
 				end	
